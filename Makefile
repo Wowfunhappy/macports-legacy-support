@@ -78,7 +78,7 @@ TEST_ARGS       ?=
 NOADDSYMS       ?=
 
 # Frameworks needed by src/wowfunhappy.c (SecTrustEvaluateWithError)
-WFHLIBS          = -framework CoreFoundation -framework Security
+WFHLIBS          = -framework CoreFoundation -framework Security -lobjc
 
 # Setup for possible multiarch test running
 ifneq ($(strip $(ARCHS)),)
