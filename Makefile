@@ -77,6 +77,9 @@ ALLLDFLAGS      := $(ARCHFLAGS) $(XLDFLAGS) $(LDFLAGS)
 TEST_ARGS       ?=
 NOADDSYMS       ?=
 
+# Frameworks needed by src/wowfunhappy.c (SecTrustEvaluateWithError)
+WFHLIBS          = -framework CoreFoundation -framework Security
+
 # Setup for possible multiarch test running
 ifneq ($(strip $(ARCHS)),)
   ifndef TESTARCHS
@@ -332,10 +335,10 @@ $(BUILDDIR) $(TIGERBINDIR) $(BUILDLIBDIR) $(TESTBINDIR) $(XLIBDIR) \
 	$(MKINSTALLDIRS) $@
 
 $(BUILDDLIBPATH): $(DLIBOBJS) | $(BUILDLIBDIR)
-	$(CC) $(BUILDDLIBFLAGS) $(ALLLDFLAGS) $(DLIBOBJS) -o $@
+	$(CC) $(BUILDDLIBFLAGS) $(ALLLDFLAGS) $(WFHLIBS) $(DLIBOBJS) -o $@
 
 $(BUILDSYSLIBPATH): $(SYSLIBOBJS) | $(BUILDLIBDIR)
-	$(CC) $(BUILDSYSLIBFLAGS) $(ALLLDFLAGS) $(SYSREEXPORTFLAG) \
+	$(CC) $(BUILDSYSLIBFLAGS) $(ALLLDFLAGS) $(SYSREEXPORTFLAG) $(WFHLIBS) \
 	      $(SYSLIBOBJS) -o $@
 
 $(BUILDSLIBPATH): $(SOBJLIST) | $(BUILDLIBDIR)
